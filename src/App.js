@@ -9,6 +9,7 @@ function App() {
   });
 
   const { username, email } = inputs;
+
   const onChange = e => {
     const { name, value } = e.target;
     setInputs({
@@ -16,6 +17,7 @@ function App() {
       [name] : value
     });
   }
+  
   const [users, setUsers] = useState([
     {
         id:1,
@@ -52,6 +54,10 @@ function App() {
     ])
     // setUsers(users.concat(user))
     nextId.current += 1;
+  }
+
+  const onRemove = id => {
+    setUsers(users.filter())
   }
 
   return (
