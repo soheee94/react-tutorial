@@ -56,25 +56,25 @@ function App() {
       username : '',
       email : ''
     })
-    setUsers([
-      ...users,
-      user
-    ])
-    // setUsers(users.concat(user))
+    // setUsers([
+    //   ...users,
+    //   user
+    // ])
+    setUsers(users => users.concat(user))
     nextId.current += 1;
-  },[username, email, users])
+  },[username, email])
 
   const onRemove = useCallback(id => {
-    setUsers(users.filter(user => user.id !== id));
-  },[users])
+    setUsers(users => users.filter(user => user.id !== id));
+  },[])
 
   const onToggle = useCallback(id => {
-    setUsers(users.map(
+    setUsers(users => users.map(
       user => user.id === id
         ? {...user, active: !user.active} //불변성 유지
         : user 
     ))
-  }, [users]);
+  }, []);
 
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (

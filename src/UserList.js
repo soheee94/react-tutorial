@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-function User({user, onRemove, onToggle}){
+const User = React.memo(function User({user, onRemove, onToggle}){
+    console.log('User');
     const {username, email, id, active} = user;
     useEffect(() => {
         // user값이 바뀔 때 마다 실행
@@ -9,7 +10,8 @@ function User({user, onRemove, onToggle}){
             console.log('user값이 바뀌기 전');
             console.log(user);
         }
-    }, [user])
+    }, [user]);
+
     // useEffect(() => {
     //     // 마운트
     //     // props -> state
@@ -19,6 +21,7 @@ function User({user, onRemove, onToggle}){
     //     // 나타나고 나서라서 DOM에 접근 가능
     //     console.log('내 눈 앞에 나타나');
     //     // 언마운트
+    //     // 업데이트 직전/삭제 직전
     //     return () => {
     //         // clearInterval, clearTimeout
     //         // 라이브러리 인스턴스 제거
@@ -36,9 +39,10 @@ function User({user, onRemove, onToggle}){
             <button onClick={() => onRemove(id)}>삭제</button>
         </div>
     )
-}
+})
 
 function UserList({ users, onRemove, onToggle }){
+    console.log('UserList');
     return(
         <div>
             {
@@ -56,4 +60,4 @@ function UserList({ users, onRemove, onToggle }){
     )
 }
 
-export default UserList;
+export default React.memo(UserList);
