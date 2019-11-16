@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
+
+function reducer(state, action){
+    switch (action.type){
+        case 'INCREMENT' :
+            return state +1;
+        case 'DECREMENT' :
+            return state-1;
+        default :
+            throw new Error('Unhandled action');
+    }
+}
 
 function Counter(){
-    const [number, setNumber] = useState(0);
+    const [number, dispatch] = useReducer(reducer, 0);
+    // const [number, setNumber] = useState(0);
     // number를 0으로 하겠다 > 파라미터가 기본값
     // setNumber는 현재 상태 업데이트
     // useState 는 배열 반환 > 첫번째 현재 상태 / 두번째 변경 함수
@@ -12,12 +24,18 @@ function Counter(){
 
     const onIncrease = () => {
         // setNumber(number + 1);
-        setNumber(prevNumber => prevNumber+1); //성능 최적화와 관련
+        // setNumber(prevNumber => prevNumber+1); //성능 최적화와 관련
         // console.log('+1');
+        dispatch({
+            type: 'INCREMENT'
+        })
     }
     const onDecrease = () => {
-        setNumber(number -1 );
+        // setNumber(number -1 );
         // console.log('-1');
+        dispatch({
+            type: 'DECREMENT'
+        })
     }
     return (
         <div>
