@@ -1,7 +1,7 @@
 import React, { useRef, useReducer, useMemo, useCallback, createContext } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
-import useInputs from './useInputs';
+// import useInputs from './useInputs';
 
 function countActiveUsers(users){
   console.log('활성 사용자 수를 세는 중');
@@ -61,27 +61,27 @@ export const UserDispatch = createContext(null);
 // 기본값은 필요 없기 때문에 null 사용
 
 function App() {
-  const [{username, email}, onChange, reset] = useInputs({
-    username:'',
-    email:''
-  })
+  // const [{username, email}, onChange, reset] = useInputs({
+  //   username:'',
+  //   email:''
+  // })
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users } = state;
-  const nextId = useRef(4);
+  // const nextId = useRef(4);
 
 
-  const onCreate = useCallback(() => {
-      dispatch({
-      type : 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    nextId.current += 1;
-    reset();
-  }, [username, email]);
+  // const onCreate = useCallback(() => {
+  //     dispatch({
+  //     type : 'CREATE_USER',
+  //     user: {
+  //       id: nextId.current,
+  //       username,
+  //       email
+  //     }
+  //   });
+  //   nextId.current += 1;
+  //   reset();
+  // }, [username, email]);
 
   // const onToggle = useCallback(id => {
   //   dispatch({
@@ -102,7 +102,8 @@ function App() {
 
   return (
     <UserDispatch.Provider value={dispatch}>
-      <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
+      {/* <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/> */}
+      <CreateUser/>
       <UserList users={users}/>
       <div>활성 사용자 수 : {count}</div>
     </UserDispatch.Provider>
