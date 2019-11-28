@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
+import * as Sentry from '@sentry/browser';
 
-class ErrorBoundary extends Component{
-    state = {
-        error : false,
+class ErrorBoundary extends Component {
+  state = {
+    error: false,
+  };
+
+  componentDidCatch(error, info) {
+    console.log({
+      error,
+      info,
+    });
+
+    this.setState({
+      error: true,
+    });
+
+    // Sentry 연동
+    if (process.env.NODE_ENV === 'production') {
+      Sentry.captureException(error, {
+        extra: info,
+      });
     }
+  }
 
-    componentDidCatch(error, info){
-        console.log({
-            error,
-            info
-        });
-
-        this.setState({
-            error : true
-        })
+  render() {
+    if (this.state.error) {
+      return <h1> 에러 발생 </h1>;
     }
-
-    render(){
-        if(this.state.error){
-            return <h1>에러 발생</h1>
-        }
-        return this.props.children;
-    }
+    return this.props.children;
+  }
 }
 
 export default ErrorBoundary;
