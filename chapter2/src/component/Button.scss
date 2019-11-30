@@ -11,6 +11,15 @@ $gray: gray;
   &:active {
     background: darken($color, 10%); // 색상 10% 어둡게
   }
+  &.outline {
+    color: $color;
+    background: none;
+    border: 1px solid $color;
+    &:hover {
+      background: $color;
+      color: white;
+    }
+  }
 }
 
 .Button {
@@ -55,5 +64,14 @@ $gray: gray;
 
   & + & {
     margin-left: 1rem;
+  }
+
+  &.fullWidth {
+    width: 100%;
+    justify-content: center;
+    & + & {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
   }
 }
