@@ -1,7 +1,42 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 import Button from './Button';
 
+const fadeIn = keyframes`
+    from{
+        opacity : 0
+    }
+    to{
+        opacity : 1
+    }
+`;
+
+const fadeOut = keyframes`
+    from{
+        opacity : 1
+    }
+    to{
+        opacity : 0
+    }
+`;
+
+const slideUp = keyframes`
+    from{
+        transform: translateY(200px)
+    }
+    to{
+        transform: translateY(0px)
+    }
+`;
+
+const slideDown = keyframes`
+    from{
+        transform: translateY(0px)
+    }
+    to{
+        transform: translateY(200px)
+    }
+`;
 const DarkBackground = styled.div`
   position: fixed;
   left: 0;
@@ -12,6 +47,17 @@ const DarkBackground = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.8);
+
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
+
+  ${props =>
+    props.disapper &&
+    css`
+      animation-name: ${fadeOut};
+    `}
 `;
 
 const DialogBlock = styled.div`
@@ -28,6 +74,17 @@ const DialogBlock = styled.div`
   p {
     font-size: 1.125rem;
   }
+
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+  animation-name: ${slideUp};
+  animation-fill-mode: forwards;
+
+  ${props =>
+    props.disapper &&
+    css`
+      animation-name: ${slideDown};
+    `}
 `;
 
 const ButtonGroup = styled.div`
@@ -51,10 +108,24 @@ function Dialog({
   onConfirm,
   onCancel,
 }) {
-  if (!visible) return null;
+  // Dialog가 꺼지는 애니메이트가 실행되는지 여부
+  const [animate, setAnimate] = useState(false);
+  // 실제로 사라지는 시점 (visible은 꺼지는 버튼 클릭했을 때 시점)
+  const [localVisible, setLocalVisible] = useState(visible);
+
+  useEffect(() => {
+    //   Dialog 꺼지라고 요청, 그러나 아직 애니메이트 실행 전
+    if (localVisible && !visible) {
+      setAnimate(true);
+      setTimeout(() => setAnimate(false), 250);
+    }
+    setLocalVisible(visible);
+  }, [localVisible, visible]);
+
+  if (!animate && !localVisible) return null;
   return (
-    <DarkBackground>
-      <DialogBlock>
+    <DarkBackground disapper={!visible}>
+      <DialogBlock disapper={!visible}>
         <h3>{title}</h3>
         <p>{children}</p>
         <ButtonGroup>
