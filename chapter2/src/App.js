@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import CheckBox from './component/CheckBox';
 import Button from './component/Button';
+import Dialog from './component/Dialog';
 
 // const Circle = styled.div`
 //   width: 5rem;
@@ -31,6 +32,18 @@ const ButtonGroup = styled.div`
 `;
 
 function App() {
+  const [dialog, setDialog] = useState(false);
+  const onClick = () => {
+    setDialog(true);
+  };
+  const onConfirm = () => {
+    console.log('확인');
+    setDialog(false);
+  };
+  const onCancel = () => {
+    console.log('취소');
+    setDialog(false);
+  };
   return (
     <ThemeProvider
       theme={{
@@ -43,13 +56,15 @@ function App() {
     >
       <AppBlock>
         <ButtonGroup>
-          <Button size="large">BUTTON</Button>
+          <Button size="large" onClick={onClick}>
+            삭제
+          </Button>
           <Button color="gray">BUTTON</Button>
           <Button size="small" color="pink">
             BUTTON
           </Button>
         </ButtonGroup>
-        <ButtonGroup>
+        {/* <ButtonGroup>
           <Button size="large" outline>
             BUTTON
           </Button>
@@ -70,8 +85,19 @@ function App() {
           <Button size="small" color="pink" size="large" fullWidth>
             BUTTON
           </Button>
-        </ButtonGroup>
+        </ButtonGroup> */}
       </AppBlock>
+
+      <Dialog
+        title="정말 삭제할꺼야?"
+        confirmText="삭제"
+        cancelText="취소"
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        visible={dialog}
+      >
+        진짜루???
+      </Dialog>
     </ThemeProvider>
   );
 }

@@ -94,6 +94,7 @@ const StyledButton = styled.button`
 `;
 
 function Button({ children, color, size, outline, fullWidth, ...rest }) {
+  console.log(rest);
   return (
     <StyledButton
       color={color}
