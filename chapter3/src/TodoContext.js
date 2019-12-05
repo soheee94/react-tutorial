@@ -30,7 +30,9 @@ function TodoReducer(state, action) {
     case 'REMOVE':
       return state.filter(todo => todo.id !== action.id);
     case 'TOGGLE':
-      return state.map(todo => todo.id === action.id ? {...todo, done = !todo.done} : todo);
+      return state.map(todo =>
+        todo.id === action.id ? { ...todo, done: !todo.done } : todo,
+      );
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -44,36 +46,36 @@ export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(TodoReducer, initialTodos);
   const nextId = useRef(5);
   return (
-      <TodoStateContext.Provider value={state}>
-          <TodoDispatchContext.Provider value={dispatch}>
-              <TodoNextIdContext.Provider>
-                {children}
-              </TodoNextIdContext.Provider>
-           </TodoDispatchContext.Provider>
-      </TodoStateContext.Provider>
+    <TodoStateContext.Provider value={state}>
+      <TodoDispatchContext.Provider value={dispatch}>
+        <TodoNextIdContext.Provider value={nextId}>
+          {children}
+        </TodoNextIdContext.Provider>
+      </TodoDispatchContext.Provider>
+    </TodoStateContext.Provider>
   );
 }
 
-export function useTodoState(){
-    const context = useContext(TodoStateContext);
-    if(!context){
-        throw new Error('Cannot fine TodoProvider');
-    }
-    return context;
+export function useTodoState() {
+  const context = useContext(TodoStateContext);
+  if (!context) {
+    throw new Error('Cannot fine TodoProvider');
+  }
+  return context;
 }
 
-export function useTodoDispatch(){
-    const context = useContext(TodoDispatchContext);
-    if(!context){
-        throw new Error('Cannot fine TodoProvider');
-    }
-    return context;
+export function useTodoDispatch() {
+  const context = useContext(TodoDispatchContext);
+  if (!context) {
+    throw new Error('Cannot fine TodoProvider');
+  }
+  return context;
 }
 
-export function useTodoNextId(){
-    const context = useContext(TodoNextIdContext);
-    if(!context){
-        throw new Error('Cannot fine TodoProvider');
-    }
-    return context;
+export function useTodoNextId() {
+  const context = useContext(TodoNextIdContext);
+  if (!context) {
+    throw new Error('Cannot fine TodoProvider');
+  }
+  return context;
 }
