@@ -26,10 +26,7 @@ function App() {
         <GLobalStyle />
         <TodoTemplate>
           <TodoHead></TodoHead>
-          <TodoList>
-            <TodoItem done={false} text="하이 첫번째"></TodoItem>
-            <TodoItem done={true} text="하이 두번째"></TodoItem>
-          </TodoList>
+          <TodoList></TodoList>
           <TodoCreate></TodoCreate>
         </TodoTemplate>
       </TodoProvider>
