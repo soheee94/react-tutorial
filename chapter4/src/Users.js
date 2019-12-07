@@ -4,9 +4,9 @@ import { useUsersState, useUsersDispatch, getUsers } from './UsersContext';
 
 function Users() {
   const [userId, setUserId] = useState(null);
-  // const [state, refetch] = Userasync(getUsers, [], true);
-  // const { loading, data: users, error } = state;
+
   const state = useUsersState();
+  console.log(state);
   const dispatch = useUsersDispatch();
 
   const { loading, data: users, error } = state.users;
