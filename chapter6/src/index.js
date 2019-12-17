@@ -3,10 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { createStore } from 'redux';
+// ./modules/index.js = ./modules
+import rootReducer from './modules';
+import { Provider } from 'react-redux';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// 스토어 생성
+const store = createStore(rootReducer);
+// 스토어 상태 확인
+console.log(store.getState());
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root'),
+);
+
 serviceWorker.unregister();
