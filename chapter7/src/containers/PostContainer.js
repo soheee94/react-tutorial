@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPost } from '../modules/posts';
+import { getPost, clearPost } from '../modules/posts';
 import Post from '../components/Post';
 
 function PostContainer({ postId }) {
@@ -9,7 +9,10 @@ function PostContainer({ postId }) {
 
   useEffect(() => {
     dispatch(getPost(postId));
-  }, [dispatch]);
+    return () => {
+      dispatch(clearPost());
+    };
+  }, [postId, dispatch]);
 
   if (loading) return <div>로딩중...</div>;
   if (error) return <div>에러 발생!</div>;
