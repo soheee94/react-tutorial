@@ -10,6 +10,7 @@ import myLogger from './middlewares/myLogger';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReduxThunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
 
 // logger를 사용하는 경우 제일 마지막에 두기!!!
 const store = createStore(
@@ -18,9 +19,11 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 
