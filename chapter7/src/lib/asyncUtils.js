@@ -1,3 +1,4 @@
+import { call, put } from 'redux-saga/effects';
 // Promise에 기반한 Thunk를 만들어주는 함수입니다.
 export const createPromiseThunk = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
@@ -14,6 +15,49 @@ export const createPromiseThunk = (type, promiseCreator) => {
       dispatch({ type: SUCCESS, payload }); // 성공
     } catch (e) {
       dispatch({ type: ERROR, payload: e, error: true }); // 실패
+    }
+  };
+};
+
+// 프로미스를 기다렸다가 결과를 디스패치하는 사가
+export const createPromiseSaga = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return function*(action) {
+    try {
+      const payload = yield call(promiseCreator, action.payload);
+      yield put({
+        type: SUCCESS,
+        payload,
+      });
+    } catch (e) {
+      yield put({
+        type: ERROR,
+        payload: e,
+        error: true,
+      });
+    }
+  };
+};
+
+// 프로미스를 기다렸다가 결과를 디스패치하는 사가
+export const createPromiseSagaById = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return function*(action) {
+    const id = action.meta;
+    try {
+      const payload = yield call(promiseCreator, action.payload);
+      yield put({
+        type: SUCCESS,
+        payload,
+        meta: id,
+      });
+    } catch (e) {
+      yield put({
+        type: ERROR,
+        payload: e,
+        error: true,
+        meta: id,
+      });
     }
   };
 };
