@@ -8,7 +8,7 @@ import {
   createPromiseSaga,
   createPromiseSagaById,
 } from '../lib/asyncUtils';
-import { call, put, takeEvery, getContext } from 'redux-saga/effects';
+import { call, put, takeEvery, getContext, select } from 'redux-saga/effects';
 
 /* 액션 타입 */
 
@@ -23,6 +23,8 @@ const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 const GET_POST_ERROR = 'GET_POST_ERROR';
 
 const GO_TO_HOME = 'GO_TO_HOME';
+
+const PRINT_STATE = 'PRINT_STATE';
 
 // 포스트 비우기
 // const CLEAR_POST = 'CLEAR_POST';
@@ -45,12 +47,17 @@ export const getPosts = () => ({ type: GET_POSTS });
 // payload : 파라미터 용도, meta: 리듀서에서 알기 위한 용도
 export const getPost = id => ({ type: GET_POST, payload: id, meta: id });
 export const goToHome = () => ({ type: GO_TO_HOME });
+export const printState = () => ({ type: PRINT_STATE });
 
 const getPostsSaga = createPromiseSaga(GET_POSTS, postsAPI.getPosts);
 const getPostSaga = createPromiseSagaById(GET_POST, postsAPI.getPostById);
 function* goToHomeSaga() {
   const history = yield getContext('history');
   history.push('/');
+}
+function* printStateSaga() {
+  const state = yield select(state => state.posts);
+  console.log(state);
 }
 
 // function* getPostsSaga() {
@@ -93,6 +100,7 @@ export function* postsSaga() {
   yield takeEvery(GET_POSTS, getPostsSaga);
   yield takeEvery(GET_POST, getPostSaga);
   yield takeEvery(GO_TO_HOME, goToHomeSaga);
+  yield takeEvery(PRINT_STATE, printStateSaga);
 }
 
 const initialState = {
