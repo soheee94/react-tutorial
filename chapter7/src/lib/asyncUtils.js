@@ -44,6 +44,7 @@ export const createPromiseSagaById = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return function*(action) {
     const id = action.meta;
+    console.log(id);
     try {
       const payload = yield call(promiseCreator, action.payload);
       yield put({

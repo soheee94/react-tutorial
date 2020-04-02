@@ -6,6 +6,7 @@ import {
   createPromiseThunkById,
   handleAsyncActionsById,
   createPromiseSaga,
+  createPromiseSagaById,
 } from '../lib/asyncUtils';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
@@ -40,10 +41,10 @@ export const goToHome = () => (dispatch, getState, { history }) => {
 
 export const getPosts = () => ({ type: GET_POSTS });
 // payload : 파라미터 용도, meta: 리듀서에서 알기 위한 용도
-export const getPost = id => ({ type: GET_POST, meta: id });
+export const getPost = id => ({ type: GET_POST, payload: id, meta: id });
 
 const getPostsSaga = createPromiseSaga(GET_POSTS, postsAPI.getPosts);
-const getPostSaga = createPromiseSaga(GET_POST, postsAPI.getPostById);
+const getPostSaga = createPromiseSagaById(GET_POST, postsAPI.getPostById);
 
 // function* getPostsSaga() {
 //   try {
